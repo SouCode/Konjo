@@ -1,7 +1,13 @@
+"use client"; // 1) Mark this file as a client component
+
 import Image from "next/image";
 import styles from "./page.module.css";
+import useStore from "@/store/useStore"; // 2) Import your Zustand store
 
 export default function Home() {
+  // 3) Access state and actions from the store:
+  const { count, increment } = useStore();
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -45,7 +51,19 @@ export default function Home() {
             Read our docs
           </a>
         </div>
+
+        {/* 4) A simple counter UI to demonstrate Zustand */}
+        <div className="mt-4">
+          <p>Count: {count}</p>
+          <button 
+            onClick={increment} 
+            className="btn btn-primary"  // Example Bootstrap class if you've imported bootstrap in layout.tsx
+          >
+            Increment
+          </button>
+        </div>
       </main>
+
       <footer className={styles.footer}>
         <a
           href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
