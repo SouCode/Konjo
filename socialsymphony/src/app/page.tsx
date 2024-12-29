@@ -1,44 +1,24 @@
-"use client";
-
-import React from "react";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
     <div>
-      {/* Navbar */}
-      <nav
-        className="navbar navbar-expand-lg"
-        style={{ backgroundColor: "#212121" }}
-      >
-        <div className="container-fluid">
-          <a className="navbar-brand text-white" href="#">
-            [Konjo]---{">"}
+      <nav className="navbar navbar-expand-lg">
+        <div className="container">
+          <a className="navbar-brand" href="#">
+            [Konjo]---&gt;
           </a>
-          <div className="d-flex">
-            <button
-              className="btn btn-success me-2"
-              style={{ backgroundColor: "#2D9737", border: "none" }}
-            >
-              Register
-            </button>
-            <button
-              className="btn btn-light"
-              style={{ backgroundColor: "#FFFFFF", color: "#000" }}
-            >
-              Login
-            </button>
+          <div>
+            <Link href="/register">
+              <button className="btn btn-register me-2">Register</button>
+            </Link>
+            <Link href="/login">
+              <button className="btn btn-login">Login</button>
+            </Link>
           </div>
         </div>
       </nav>
-
-      {/* Body */}
-      <div
-        className="container-fluid"
-        style={{
-          backgroundColor: "#FFFFFF",
-          height: "calc(100vh - 56px)", // Adjust height to fill remaining space
-        }}
-      ></div>
+      
     </div>
   );
 }
