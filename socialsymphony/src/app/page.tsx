@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import styles from "./page.module.css";
-import useStore from "@/store/useStore"; // 2) Import your Zustand store
+import useStore from "@/app/store/useStore"; // 2) Import your Zustand store
 
 export default function Home() {
   // 3) Access state and actions from the store:
