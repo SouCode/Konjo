@@ -1,7 +1,7 @@
 "use client";
 
 import { create } from "zustand";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "@/app/utils/supabaseClient";
 
 
 interface GridItem {

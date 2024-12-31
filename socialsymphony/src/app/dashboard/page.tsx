@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import GridLayout from "react-grid-layout";
-import useStore from "@/app/store/useStore";
+import useStore from "@/store/useStore";
 
 export default function DashboardPage() {
   const { gridLayout, fetchGridLayout, saveGridLayout } = useStore();

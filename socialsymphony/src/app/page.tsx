@@ -5,9 +5,7 @@ export default function HomePage() {
     <div>
       <nav className="navbar navbar-expand-lg">
         <div className="container">
-          <a className="navbar-brand" href="#">
-            [Konjo]---&gt;
-          </a>
+        <a className="navbar-brand ms-n3" href="#">[Konjo]---&gt;</a>
           <div>
             <Link href="/register">
               <button className="btn btn-register me-2">Register</button>

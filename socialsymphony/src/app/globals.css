@@ -31,11 +31,11 @@ body {
   color: #ffffff; /* White text */
   text-decoration: none;
   font-family: 'JetBrains Mono', monospace;
-  margin-right: 1rem; /* Add some spacing from the buttons */
+  margin-left: -1.5rem; /* Shift left by reducing margin */
 }
 
 .navbar-brand:hover {
-  color: #3BE15A; /* Slightly brighter green on hover */
+  color: #8D3131; /* Slightly brighter green on hover */
 }
 
 .navbar-buttons {
@@ -54,16 +54,16 @@ body {
 
 /* Register button */
 .btn-register {
-  background-color: #2D9737; /* Terminal green */
+  background-color: #8D3131; /* Terminal green */
   color: #FFFFFF !important; /* Ensure text stays white */
-  border: 2px solid #2D9737;
+  border: 2px solid #8D3131;
   font-weight: bold;
   text-transform: uppercase;
 }
 
 .btn-register:hover {
-  background-color: #3BE15A; /* Brighter green on hover */
-  border-color: #3BE15A;
+  background-color: #8D3131; /* Brighter green on hover */
+  border-color: #e1e1e1;
 }
 
 /* Login button */
@@ -78,7 +78,7 @@ body {
 .btn-login:hover {
   background-color: #F0F0F0; /* Slightly darker white */
   color: #000000;
-  border-color: #F0F0F0;
+  border-color: #8D3131;
 }
 
 /* Main container */
