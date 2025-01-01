@@ -109,3 +109,20 @@ footer {
   padding: 1rem;
   border-top: 2px solid #444;
 }
+
+
+/* Dashboard Styles */
+
+.btn-google {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.btn-google:hover {
+  background-color: #357ae8;
+}
