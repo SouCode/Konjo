@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useDraggable } from "@dnd-kit/core"; // Import useDraggable from dnd-kit
+import React, { useEffect, useState } from "react";
 import { supabase } from "@/app/utils/supabaseClient";
 import styles from "./chatWidget.module.css";
 
@@ -12,13 +11,9 @@ interface Message {
   created_at: string;
 }
 
-export default function ChatWidget() {
+const ChatWidget: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
-
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: "chatWidget",
-  });
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -27,16 +22,13 @@ export default function ChatWidget() {
         .select("*")
         .order("created_at", { ascending: true });
 
-      if (error) {
-        console.error("Error fetching messages:", error.message);
-      } else {
+      if (!error) {
         setMessages(data || []);
       }
     };
 
     fetchMessages();
 
-    // Realtime subscription for new messages
     const channel = supabase
       .channel("realtime-messages")
       .on(
@@ -62,32 +54,18 @@ export default function ChatWidget() {
       user_email: user.data.user?.email || "Anonymous",
     });
 
-    if (error) {
-      console.error("Error sending message:", error.message);
-    } else {
+    if (!error) {
       setNewMessage("");
     }
   };
 
-  // Apply transformation from drag events
-  const transformStyle = {
-    transform: transform
-      ? `translate(${transform.x}px, ${transform.y}px)`
-      : undefined,
-  };
-
   return (
-    <div
-      ref={setNodeRef} // Set node ref for draggable functionality
-      {...attributes} // Attach draggable attributes
-      {...listeners} // Attach drag listeners
-      className={styles.chatWidget}
-      style={transformStyle} // Apply transform for drag effect
-    >
-      <div className={styles.chatHeader}>
+    <div className={styles.chatWidget}>
+      <div className={`${styles.chatHeader} drag-handle`}>
         <span>Community Chat</span>
         <button className={styles.closeButton}>✕</button>
-      </div>
+    </div>
+
       <div className={styles.chatMessages}>
         {messages.map((message) => (
           <div key={message.id} className={styles.chatMessage}>
@@ -110,4 +88,6 @@ export default function ChatWidget() {
       </div>
     </div>
   );
-}
+};
+
+export default ChatWidget;
