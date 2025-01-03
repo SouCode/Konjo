@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useDraggable } from "@dnd-kit/core"; // Import useDraggable from dnd-kit
 import { supabase } from "@/app/utils/supabaseClient";
 import styles from "./chatWidget.module.css";
 
@@ -15,7 +16,10 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
 
-  // Fetch initial messages and set up the realtime subscription
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: "chatWidget",
+  });
+
   useEffect(() => {
     const fetchMessages = async () => {
       const { data, error } = await supabase
@@ -39,19 +43,16 @@ export default function ChatWidget() {
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "messages" },
         (payload) => {
-          console.log("New message received:", payload.new);
           setMessages((prevMessages) => [...prevMessages, payload.new as Message]);
         }
       )
       .subscribe();
 
-    // Cleanup the subscription on component unmount
     return () => {
       supabase.removeChannel(channel);
     };
   }, []);
 
-  // Send a new message
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
 
@@ -64,12 +65,25 @@ export default function ChatWidget() {
     if (error) {
       console.error("Error sending message:", error.message);
     } else {
-      setNewMessage(""); // Clear the input field
+      setNewMessage("");
     }
   };
 
+  // Apply transformation from drag events
+  const transformStyle = {
+    transform: transform
+      ? `translate(${transform.x}px, ${transform.y}px)`
+      : undefined,
+  };
+
   return (
-    <div className={styles.chatWidget}>
+    <div
+      ref={setNodeRef} // Set node ref for draggable functionality
+      {...attributes} // Attach draggable attributes
+      {...listeners} // Attach drag listeners
+      className={styles.chatWidget}
+      style={transformStyle} // Apply transform for drag effect
+    >
       <div className={styles.chatHeader}>
         <span>Community Chat</span>
         <button className={styles.closeButton}>✕</button>

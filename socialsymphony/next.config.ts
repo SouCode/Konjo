@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Disable React Strict Mode
+  reactStrictMode: false,
+
   // Disable source maps in production
   productionBrowserSourceMaps: false,
 

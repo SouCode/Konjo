@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { getSession, signOut } from "@/app/utils/authUtils";
-import ChatWidget from "@/app/widgets/chatWidget/chatWidget";
+import DraggableWidget from "./components/DraggableWidgets";
+import ChatWidget from "./widgets/chatWidget/chatWidget";
 import { User } from "@supabase/supabase-js";
 
-export default function HomePage() {
+export default function Page() {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -58,10 +59,17 @@ export default function HomePage() {
         </div>
       </nav>
 
-      <div className="container mt-5">
+      <div style={{ position: "relative", width: "100%", height: "100vh" }}>
         {user ? (
           <>
-            <ChatWidget />
+            {/* Draggable Chat Widget */}
+            <DraggableWidget
+              id="chat-widget"
+              initialPosition={{ x: 100, y: 100 }}
+              initialSize={{ width: 300, height: 500 }}
+            >
+              <ChatWidget />
+            </DraggableWidget>
           </>
         ) : (
           <h1>Please log in to access the community chat.</h1>
