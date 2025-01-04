@@ -31,7 +31,7 @@ export default function Page() {
   };
 
   return (
-    <div>
+    <div style={{ height: "100vh", width: "100vw", position: "relative" }}>
       <nav className="navbar navbar-expand-lg">
         <div className="container">
           <a className="navbar-brand ms-n3" href="#">
@@ -59,10 +59,9 @@ export default function Page() {
         </div>
       </nav>
 
-      <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+      <div style={{ position: "relative", width: "100%", height: "100%" }}>
         {user ? (
           <>
-            {/* Draggable Chat Widget */}
             <DraggableWidget
               id="chat-widget"
               initialPosition={{ x: 100, y: 100 }}
