@@ -1,66 +1,89 @@
 .onboardingContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    color: #fff;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  
-  .title {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    color: #8D3131;
-  }
-  
-  .genresGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    width: 80%;
-    max-width: 800px;
-  }
-  
-  .genreCard {
-    background-color: #333;
-    padding: 1rem;
-    border: 2px solid #444;
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
-    font-weight: bold;
-    color: #ccc;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .genreCard:hover {
-    background-color: #444;
-    color: #fff;
-  }
-  
-  .selected {
-    background-color: #8D3131;
-    color: #fff;
-  }
-  
-  .checkMark {
-    font-size: 1.2rem;
-    margin-left: 0.5rem;
-  }
-  
-  .nextButton {
-    margin-top: 1.5rem;
-    padding: 0.5rem 2rem;
-    background-color: #8D3131;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-family: 'JetBrains Mono', monospace;
-    cursor: pointer;
-  }
-  
-  .nextButton:hover {
-    background-color: #b04040;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.header {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  background-color: #3be15a;
+  color: #000000;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.genreGridWrapper {
+  width: 490px; /* Fixed width to show 2 columns */
+  height: 345px; /* Fixed height to show 2 rows */
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  padding-bottom: 1rem;
+  scroll-behavior: smooth;
+}
+
+.genreGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 150px); /* Set columns for scrolling */
+  grid-template-rows: repeat(2, 150px); /* Exactly 2 rows */
+  gap: 1rem;
+  width: max-content;
+}
+
+.genreBox {
+  width: 150px;
+  height: 150px;
+  background-color: #333;
+  border: 2px solid #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  cursor: pointer;
+  position: relative;
+  border-radius: 8px;
+}
+
+.genreBox:hover {
+  background-color: #444;
+}
+
+.selected {
+  background-color: #3be15a;
+  border-color: #3be15a;
+  color: #000000;
+}
+
+.checkmark {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.nextButton {
+  margin-top: 2rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #3be15a;
+  color: #000000;
+  border: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 8px;
+}
+
+.nextButton:hover {
+  background-color: #2eaa49;
+}
