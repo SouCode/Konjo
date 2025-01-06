@@ -2,23 +2,60 @@
 
 import React, { useEffect, useState } from "react";
 import { getSession, signOut } from "@/app/utils/authUtils";
+import { supabase } from "@/app/utils/supabaseClient";
 import OnboardingWidget from "@/app/widgets/onboardingWidget/onboardingWidget";
 import { User } from "@supabase/supabase-js";
 
 export default function TestPage() {
   const [user, setUser] = useState<User | null>(null);
-  const [showOnboarding, setShowOnboarding] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
     async function fetchSession() {
       const { success, session } = await getSession();
       if (success && session) {
         setUser(session.user);
+        checkOnboardingStatus(session.user.id);
       }
     }
 
     fetchSession();
   }, []);
+
+  const checkOnboardingStatus = async (userId: string) => {
+    const { data, error } = await supabase
+      .from("user_preferences")
+      .select("*")
+      .eq("user_id", userId)
+      .single();
+
+    if (!error && data) {
+      setShowOnboarding(false); // User has already completed onboarding
+    } else {
+      setShowOnboarding(true); // Show onboarding for new users
+    }
+  };
+
+  const handleOnboardingComplete = async (
+    selectedGenres: string[],
+    selectedArtists: string[]
+  ) => {
+    if (user) {
+      const { error } = await supabase.from("user_preferences").insert({
+        user_id: user.id,
+        genres: selectedGenres,
+        artists: selectedArtists,
+      });
+
+      if (error) {
+        console.error("Error saving preferences:", error.message);
+        alert("Failed to save preferences. Please try again.");
+      } else {
+        alert("Preferences saved successfully!");
+        setShowOnboarding(false);
+      }
+    }
+  };
 
   const handleSignOut = async () => {
     const { success } = await signOut();
@@ -29,13 +66,6 @@ export default function TestPage() {
       alert("Logout failed. Please try again.");
     }
   };
-
-  const handleOnboardingComplete = (selectedGenres: string[], selectedArtists: string[]) => {
-    console.log("User selected genres:", selectedGenres);
-    console.log("User selected artists:", selectedArtists);
-    setShowOnboarding(false);
-  };
-  
 
   return (
     <div>
@@ -69,8 +99,10 @@ export default function TestPage() {
       <div style={{ position: "relative", width: "100%", height: "100vh" }}>
         {user ? (
           <>
-            {showOnboarding && (
+            {showOnboarding ? (
               <OnboardingWidget onComplete={handleOnboardingComplete} />
+            ) : (
+              <h1>Welcome to your personalized music feed!</h1>
             )}
           </>
         ) : (
