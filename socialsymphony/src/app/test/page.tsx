@@ -4,11 +4,13 @@ import React, { useEffect, useState } from "react";
 import { getSession, signOut } from "@/app/utils/authUtils";
 import { supabase } from "@/app/utils/supabaseClient";
 import OnboardingWidget from "@/app/widgets/onboardingWidget/onboardingWidget";
+import ProfileWidget from "@/app/widgets/profileWidget/profileWidget";
 import { User } from "@supabase/supabase-js";
 
 export default function TestPage() {
   const [user, setUser] = useState<User | null>(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [preferences, setPreferences] = useState<{ genres: string[]; artists: string[] } | null>(null);
 
   useEffect(() => {
     async function fetchSession() {
@@ -30,16 +32,14 @@ export default function TestPage() {
       .single();
 
     if (!error && data) {
+      setPreferences({ genres: data.genres, artists: data.artists });
       setShowOnboarding(false); // User has already completed onboarding
     } else {
       setShowOnboarding(true); // Show onboarding for new users
     }
   };
 
-  const handleOnboardingComplete = async (
-    selectedGenres: string[],
-    selectedArtists: string[]
-  ) => {
+  const handleOnboardingComplete = async (selectedGenres: string[], selectedArtists: string[]) => {
     if (user) {
       const { error } = await supabase.from("user_preferences").insert({
         user_id: user.id,
@@ -52,6 +52,7 @@ export default function TestPage() {
         alert("Failed to save preferences. Please try again.");
       } else {
         alert("Preferences saved successfully!");
+        setPreferences({ genres: selectedGenres, artists: selectedArtists });
         setShowOnboarding(false);
       }
     }
@@ -102,7 +103,7 @@ export default function TestPage() {
             {showOnboarding ? (
               <OnboardingWidget onComplete={handleOnboardingComplete} />
             ) : (
-              <h1>Welcome to your personalized music feed!</h1>
+              <ProfileWidget genres={preferences?.genres || []} artists={preferences?.artists || []} />
             )}
           </>
         ) : (
